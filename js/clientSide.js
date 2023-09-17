@@ -43,12 +43,13 @@ function scoreObject(initials, score) {
     this.initials = initials;
     this.score = score;
 }
-
-const test = new scoreObject("JO", 5);
-localStorage.setItem("test", JSON.stringify(test));
-console.log(JSON.parse(localStorage.getItem("test")));
-localStorage.removeItem("test");
-localStorage.clear();
+// populate scoreboard with fake scores
+const fake0 = new scoreObject("JO", 5);
+const fake1 = new scoreObject("GL", 4);
+const fake2 = new scoreObject("KM", 5);
+localStorage.setItem(0, JSON.stringify(fake0))
+localStorage.setItem(1, JSON.stringify(fake1))
+localStorage.setItem(2, JSON.stringify(fake2))
 
 // initializes questions
 const q1 = new questTemplate("What is used to apply styling to HTML?","HTML", "CSS", "Javascript", "Java", 2);
@@ -133,15 +134,13 @@ function endScreenDisplay() {
         storeScore();
         $("#initials").val(``);
         scoreDisplay();
-        
     })  
 }
 // checks user inputted initials to see if they're of appropriate length
 function checkInitials() {
     console.log("checkInitials started")
     let initials = $("#initials").val();
-    console.log(initials);
-    if(initials.length > 2){
+    if(initials.length != 2){
         return false;
     }
     return true;
@@ -152,7 +151,9 @@ function storeScore() {
     if(checkInitials() === true) {
         let score = checkScore();
         let nextKey = localStorage.length;
-        let store = new scoreObject($("#initials").val(), score);
+        let tempInitials = $("#initials").val();
+        tempInitials = tempInitials.toUpperCase();
+        let store = new scoreObject(tempInitials, score);
         localStorage.setItem(nextKey, JSON.stringify(store));
     } else {
         alert("Please only use two characters when storing initials");
@@ -161,12 +162,13 @@ function storeScore() {
 // removes all child list items then reappends them
 function scoreDisplay() {
     $("#scoreList").empty();
+    $("#scoreListScores").empty();
     for (let i = 0; i < localStorage.length; i++) {
         let tempScoreObj = JSON.parse(localStorage.getItem(i))
         let tempInit = tempScoreObj.initials;
         let tempScore = tempScoreObj.score;
-        let appendString = tempInit + ":" + tempScore + " points"
-        $("#scoreList").append("<li>" + appendString + "</li>")
+        $("#scoreList").append("<li>" + tempInit + "</li>")
+        $("#scoreListScores").append("<li>" + tempScore + " points</li>")
     }
 }
 
