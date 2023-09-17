@@ -117,4 +117,6 @@ function endScreenDisplay() {
     $("#questionCont").addClass("d-none");
     $("#score").text("You got " + checkScore() + " out of " + questionList.length + " right!")
     $("#endscreen").removeClass("d-none");
+    $("#endscreen").addClass("d-flex");
+    
 }
