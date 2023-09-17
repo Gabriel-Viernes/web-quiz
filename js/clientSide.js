@@ -44,9 +44,9 @@ function scoreObject(initials, score) {
     this.score = score;
 }
 // populate scoreboard with fake scores
-const fake0 = new scoreObject("JO", 5);
-const fake1 = new scoreObject("GL", 4);
-const fake2 = new scoreObject("KM", 5);
+const fake0 = new scoreObject("馬鹿", 5);
+const fake1 = new scoreObject("ばか", 4);
+const fake2 = new scoreObject("あほ", 5);
 localStorage.setItem(0, JSON.stringify(fake0))
 localStorage.setItem(1, JSON.stringify(fake1))
 localStorage.setItem(2, JSON.stringify(fake2))
