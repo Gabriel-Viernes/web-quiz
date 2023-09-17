@@ -31,3 +31,6 @@ body {
     animation-duration:1s;
     animation-fill-mode:forwards;
 }
+#scoreList li {
+    font-size: 2em;
+}

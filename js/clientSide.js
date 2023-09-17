@@ -38,6 +38,17 @@ function questTemplate(question,a,b,c,d,correct) {
     this.correct = correct;
     // correct will be a number from 1-4, corresponding with a-d
 }
+// score object
+function scoreObject(initials, score) {
+    this.initials = initials;
+    this.score = score;
+}
+
+const test = new scoreObject("JO", 5);
+localStorage.setItem("test", JSON.stringify(test));
+console.log(JSON.parse(localStorage.getItem("test")));
+localStorage.removeItem("test");
+localStorage.clear();
 
 // initializes questions
 const q1 = new questTemplate("What is used to apply styling to HTML?","HTML", "CSS", "Javascript", "Java", 2);
@@ -116,7 +127,46 @@ function checkScore() {
 function endScreenDisplay() {
     $("#questionCont").addClass("d-none");
     $("#score").text("You got " + checkScore() + " out of " + questionList.length + " right!")
-    $("#endscreen").removeClass("d-none");
-    
-    
+    $("#endscreen").removeClass("d-none");  
+    scoreDisplay();  
+    $("#initialSubmit").on("click", () => {
+        storeScore();
+        $("#initials").val(``);
+        scoreDisplay();
+        
+    })  
 }
+// checks user inputted initials to see if they're of appropriate length
+function checkInitials() {
+    console.log("checkInitials started")
+    let initials = $("#initials").val();
+    console.log(initials);
+    if(initials.length > 2){
+        return false;
+    }
+    return true;
+}
+
+function storeScore() {
+    console.log("storeScore started")
+    if(checkInitials() === true) {
+        let score = checkScore();
+        let nextKey = localStorage.length;
+        let store = new scoreObject($("#initials").val(), score);
+        localStorage.setItem(nextKey, JSON.stringify(store));
+    } else {
+        alert("Please only use two characters when storing initials");
+    }
+}
+// removes all child list items then reappends them
+function scoreDisplay() {
+    $("#scoreList").empty();
+    for (let i = 0; i < localStorage.length; i++) {
+        let tempScoreObj = JSON.parse(localStorage.getItem(i))
+        let tempInit = tempScoreObj.initials;
+        let tempScore = tempScoreObj.score;
+        let appendString = tempInit + ":" + tempScore + " points"
+        $("#scoreList").append("<li>" + appendString + "</li>")
+    }
+}
+
