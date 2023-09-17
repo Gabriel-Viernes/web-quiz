@@ -24,9 +24,10 @@ body {
     background-color: black;
     color: white;
     border: 1em solid black;
-    
+
 }
 .answer:hover {
     animation-name:selection;
     animation-duration:1s;
+    animation-fill-mode:forwards;
 }

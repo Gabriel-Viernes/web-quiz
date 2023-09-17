@@ -1,10 +1,28 @@
 var currentQuestion = 0;
 var time = 60;
+var chosenAnswers = [];
 var startBtn = $("#startBtn").on("click", () => {
     $("#startBtnCont").addClass("d-none");
     timer();
-    displayQuestion(currentQuestion);
+    displayQuestion();
     $("#questionCont").removeClass("d-none");
+})
+
+var a = $("#a").on("click", () => {
+    let answerID = 1
+    endTest(answerID);
+})
+var b = $("#b").on("click", () => {
+    let answerID = 2
+    endTest(answerID);
+})
+var c = $("#c").on("click", () => {
+    let answerID = 3
+    endTest(answerID);
+})
+var d = $("#d").on("click", () => {
+    let answerID = 4
+    endTest(answerID);
 })
 
 function questTemplate(question,a,b,c,d,correct) {
@@ -25,13 +43,15 @@ const q4 = new questTemplate("What is KISS?", "A Band","Keep Infrastructure Soli
 const q5 = new questTemplate("Which of the following is used to make a webpage dynamic?", "Java", "Javascipt","C","BASIC", 1);
 const questionList = [q1,q2,q3,q4,q5];
 
-function displayQuestion(i) {
-    let cur = questionList[i];
+
+function displayQuestion() {
+    let cur = questionList[currentQuestion];
     $("#question").text(cur.question);
     $("#a").text(cur.a);
     $("#b").text(cur.b);
     $("#c").text(cur.c);
     $("#d").text(cur.d);
+    $("#curr").text(currentQuestion+1);
 }
 
 function timer() {
@@ -40,4 +60,25 @@ function timer() {
         time--;
         $("#time").text(time);
     }, 1000)
+}
+
+function nextQuestion() {
+    currentQuestion = currentQuestion + 1;
+    displayQuestion(currentQuestion);
+}
+
+function recordAnswer(id) {
+    chosenAnswers.push(id);
+    console.log(chosenAnswers);
+}
+
+function endTest(id) {
+    if(currentQuestion === (questionList.length - 1)) {
+        recordAnswer(id);
+        console.log("oops")
+    } else {
+        recordAnswer(id);
+        nextQuestion();
+        displayQuestion();
+    }
 }
