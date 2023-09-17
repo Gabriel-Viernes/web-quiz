@@ -6,6 +6,7 @@ var startBtn = $("#startBtn").on("click", () => {
     displayQuestion(currentQuestion);
     $("#questionCont").removeClass("d-none");
 })
+
 function questTemplate(question,a,b,c,d,correct) {
     this.question = question;
     this.a = a;
