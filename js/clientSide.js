@@ -5,6 +5,8 @@ var startBtn = $("#startBtn").on("click", () => {
     $("#startBtnCont").addClass("d-none");
     timer();
     displayQuestion();
+    // display inital question number, will be updated by recordAnswer
+    $("#curr").text(currentQuestion+1);
     $("#questionCont").removeClass("d-none");
 })
 
@@ -40,7 +42,7 @@ const q1 = new questTemplate("What is used to apply styling to HTML?","HTML", "C
 const q2 = new questTemplate("What does `=` mean in Javascript?","equals","is operator","assignment operator", "equals operator", 3);
 const q3 = new questTemplate("What is your best resource for researching methods for a given API?","The API's documentation","Stack Overflow","Google","ChatAPT", 1);
 const q4 = new questTemplate("What is KISS?", "A Band","Keep Infrastructure Solid State","Keep In Solid Snake","Keep It Simple Stupid",4);
-const q5 = new questTemplate("Which of the following is used to make a webpage dynamic?", "Java", "Javascipt","C","BASIC", 1);
+const q5 = new questTemplate("Which of the following is used to make a webpage dynamic?", "Java", "Javascipt","C","BASIC", 2);
 const questionList = [q1,q2,q3,q4,q5];
 
 
@@ -51,7 +53,7 @@ function displayQuestion() {
     $("#b").text(cur.b);
     $("#c").text(cur.c);
     $("#d").text(cur.d);
-    $("#curr").text(currentQuestion+1);
+    // $("#curr").text(currentQuestion+1);
 }
 
 function timer() {
@@ -70,6 +72,18 @@ function nextQuestion() {
 function recordAnswer(id) {
     chosenAnswers.push(id);
     console.log(chosenAnswers);
+    if (id === questionList[currentQuestion].correct) {
+        $("#curr").text("Correct!");
+        setTimeout(() => {
+            $("#curr").text(currentQuestion+1);
+        }, 3000);
+    } else {
+        $("#curr").text("Wrong!");
+        time = time-5;
+        setTimeout(() => {
+            $("#curr").text(currentQuestion+1);
+        }, 3000);
+    }
 }
 
 function endTest(id) {
