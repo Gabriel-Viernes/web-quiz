@@ -29,7 +29,7 @@ var d = $("#d").on("click", () => {
 })
 
 // This is the question object
-function questTemplate(question,a,b,c,d,correct) {
+function questionTemplate(question,a,b,c,d,correct) {
     this.question = question;
     this.a = a;
     this.b = b;
@@ -52,11 +52,11 @@ localStorage.setItem(1, JSON.stringify(fake1))
 localStorage.setItem(2, JSON.stringify(fake2))
 
 // initializes questions
-const q1 = new questTemplate("What is used to apply styling to HTML?","HTML", "CSS", "Javascript", "Java", 2);
-const q2 = new questTemplate("What does `=` mean in Javascript?","equals","is operator","assignment operator", "equals operator", 3);
-const q3 = new questTemplate("What is your best resource for researching methods for a given API?","The API's documentation","Stack Overflow","Google","ChatAPT", 1);
-const q4 = new questTemplate("What is KISS?", "A Band","Keep Infrastructure Solid State","Keep In Solid Snake","Keep It Simple Stupid",4);
-const q5 = new questTemplate("Which of the following is used to make a webpage dynamic?", "Java", "Javascipt","C","BASIC", 2);
+const q1 = new questionTemplate("What is used to apply styling to HTML?","HTML", "CSS", "Javascript", "Java", 2);
+const q2 = new questionTemplate("What does `=` mean in Javascript?","equals","is operator","assignment operator", "equals operator", 3);
+const q3 = new questionTemplate("What is your best resource for researching methods for a given API?","The API's documentation","Stack Overflow","Google","ChatAPT", 1);
+const q4 = new questionTemplate("What is KISS?", "A Band","Keep Infrastructure Solid State","Keep In Solid Snake","Keep It Simple Stupid",4);
+const q5 = new questionTemplate("Which of the following is used to make a webpage dynamic?", "Java", "Javascipt","C","BASIC", 2);
 const questionList = [q1,q2,q3,q4,q5];
 
 
@@ -114,7 +114,7 @@ function endTestCheck(id) {
         displayQuestion();
     }
 }
-
+// checks user's answers against answer sheet and returns a score
 function checkScore() {
     let score = 0;
     for (let i = 0; i < questionList.length; i++) {
@@ -124,7 +124,7 @@ function checkScore() {
     }
     return score;
 }
-
+// displays endscreen and initializes input for user initials
 function endScreenDisplay() {
     $("#questionCont").addClass("d-none");
     $("#score").text("You got " + checkScore() + " out of " + questionList.length + " right!")
@@ -146,6 +146,7 @@ function checkInitials() {
     return true;
 }
 
+// adds a scoreObject to local storage based on user input
 function storeScore() {
     console.log("storeScore started")
     if(checkInitials() === true) {
