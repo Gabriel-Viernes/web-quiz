@@ -10,23 +10,25 @@ var startBtn = $("#startBtn").on("click", () => {
     $("#questionCont").removeClass("d-none");
 })
 
+// event listeners for each answer choice
 var a = $("#a").on("click", () => {
     let answerID = 1
-    endTest(answerID);
+    endTestCheck(answerID);
 })
 var b = $("#b").on("click", () => {
     let answerID = 2
-    endTest(answerID);
+    endTestCheck(answerID);
 })
 var c = $("#c").on("click", () => {
     let answerID = 3
-    endTest(answerID);
+    endTestCheck(answerID);
 })
 var d = $("#d").on("click", () => {
     let answerID = 4
-    endTest(answerID);
+    endTestCheck(answerID);
 })
 
+// This is the question object
 function questTemplate(question,a,b,c,d,correct) {
     this.question = question;
     this.a = a;
@@ -53,7 +55,6 @@ function displayQuestion() {
     $("#b").text(cur.b);
     $("#c").text(cur.c);
     $("#d").text(cur.d);
-    // $("#curr").text(currentQuestion+1);
 }
 
 function timer() {
@@ -61,14 +62,18 @@ function timer() {
     setInterval(() => {
         time--;
         $("#time").text(time);
+        if (time <= 0) {
+            endScreenDisplay();
+        }
     }, 1000)
 }
 
 function nextQuestion() {
-    currentQuestion = currentQuestion + 1;
+    currentQuestion++;
     displayQuestion(currentQuestion);
 }
 
+// adds answerID to chosenAnswers[], checks the answer, displays Correct/Wrong 
 function recordAnswer(id) {
     chosenAnswers.push(id);
     console.log(chosenAnswers);
@@ -85,14 +90,31 @@ function recordAnswer(id) {
         }, 3000);
     }
 }
-
-function endTest(id) {
+// Compares the current question to the amount of questions available, then advances to the next question or ends the quiz
+function endTestCheck(id) {
     if(currentQuestion === (questionList.length - 1)) {
         recordAnswer(id);
+        endScreenDisplay();
         console.log("oops")
     } else {
         recordAnswer(id);
         nextQuestion();
         displayQuestion();
     }
+}
+
+function checkScore() {
+    let score = 0;
+    for (let i = 0; i < questionList.length; i++) {
+        if(questionList[i].correct === chosenAnswers[i]) {
+            score++;
+        }
+    }
+    return score;
+}
+
+function endScreenDisplay() {
+    $("#questionCont").addClass("d-none");
+    $("#score").text("You got " + checkScore() + " out of " + questionList.length + " right!")
+    $("#endscreen").removeClass("d-none");
 }
