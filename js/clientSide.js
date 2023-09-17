@@ -29,7 +29,7 @@ var d = $("#d").on("click", () => {
 })
 
 // This is the question object
-function questTemplate(question,a,b,c,d,correct) {
+function questionTemplate(question,a,b,c,d,correct) {
     this.question = question;
     this.a = a;
     this.b = b;
@@ -38,13 +38,25 @@ function questTemplate(question,a,b,c,d,correct) {
     this.correct = correct;
     // correct will be a number from 1-4, corresponding with a-d
 }
+// score object
+function scoreObject(initials, score) {
+    this.initials = initials;
+    this.score = score;
+}
+// populate scoreboard with fake scores
+const fake0 = new scoreObject("JO", 5);
+const fake1 = new scoreObject("GL", 4);
+const fake2 = new scoreObject("KM", 5);
+localStorage.setItem(0, JSON.stringify(fake0))
+localStorage.setItem(1, JSON.stringify(fake1))
+localStorage.setItem(2, JSON.stringify(fake2))
 
 // initializes questions
-const q1 = new questTemplate("What is used to apply styling to HTML?","HTML", "CSS", "Javascript", "Java", 2);
-const q2 = new questTemplate("What does `=` mean in Javascript?","equals","is operator","assignment operator", "equals operator", 3);
-const q3 = new questTemplate("What is your best resource for researching methods for a given API?","The API's documentation","Stack Overflow","Google","ChatAPT", 1);
-const q4 = new questTemplate("What is KISS?", "A Band","Keep Infrastructure Solid State","Keep In Solid Snake","Keep It Simple Stupid",4);
-const q5 = new questTemplate("Which of the following is used to make a webpage dynamic?", "Java", "Javascipt","C","BASIC", 2);
+const q1 = new questionTemplate("What is used to apply styling to HTML?","HTML", "CSS", "Javascript", "Java", 2);
+const q2 = new questionTemplate("What does `=` mean in Javascript?","equals","is operator","assignment operator", "equals operator", 3);
+const q3 = new questionTemplate("What is your best resource for researching methods for a given API?","The API's documentation","Stack Overflow","Google","ChatAPT", 1);
+const q4 = new questionTemplate("What is KISS?", "A Band","Keep Infrastructure Solid State","Keep In Solid Snake","Keep It Simple Stupid",4);
+const q5 = new questionTemplate("Which of the following is used to make a webpage dynamic?", "Java", "Javascipt","C","BASIC", 2);
 const questionList = [q1,q2,q3,q4,q5];
 
 
@@ -102,7 +114,7 @@ function endTestCheck(id) {
         displayQuestion();
     }
 }
-
+// checks user's answers against answer sheet and returns a score
 function checkScore() {
     let score = 0;
     for (let i = 0; i < questionList.length; i++) {
@@ -112,9 +124,52 @@ function checkScore() {
     }
     return score;
 }
-
+// displays endscreen and initializes input for user initials
 function endScreenDisplay() {
     $("#questionCont").addClass("d-none");
     $("#score").text("You got " + checkScore() + " out of " + questionList.length + " right!")
-    $("#endscreen").removeClass("d-none");
+    $("#endscreen").removeClass("d-none");  
+    scoreDisplay();  
+    $("#initialSubmit").on("click", () => {
+        storeScore();
+        $("#initials").val(``);
+        scoreDisplay();
+    })  
 }
+// checks user inputted initials to see if they're of appropriate length
+function checkInitials() {
+    console.log("checkInitials started")
+    let initials = $("#initials").val();
+    if(initials.length != 2){
+        return false;
+    }
+    return true;
+}
+
+// adds a scoreObject to local storage based on user input
+function storeScore() {
+    console.log("storeScore started")
+    if(checkInitials() === true) {
+        let score = checkScore();
+        let nextKey = localStorage.length;
+        let tempInitials = $("#initials").val();
+        tempInitials = tempInitials.toUpperCase();
+        let store = new scoreObject(tempInitials, score);
+        localStorage.setItem(nextKey, JSON.stringify(store));
+    } else {
+        alert("Please only use two characters when storing initials");
+    }
+}
+// removes all child list items then reappends them
+function scoreDisplay() {
+    $("#scoreList").empty();
+    $("#scoreListScores").empty();
+    for (let i = 0; i < localStorage.length; i++) {
+        let tempScoreObj = JSON.parse(localStorage.getItem(i))
+        let tempInit = tempScoreObj.initials;
+        let tempScore = tempScoreObj.score;
+        $("#scoreList").append("<li>" + tempInit + "</li>")
+        $("#scoreListScores").append("<li>" + tempScore + " points</li>")
+    }
+}
+
