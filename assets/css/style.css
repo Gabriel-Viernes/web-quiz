@@ -24,6 +24,8 @@ body {
     background-color: black;
     color: white;
     border: 1em solid black;
+    position:relative;
+    right: 1em;
 
 }
 .answer:hover {
@@ -31,11 +33,7 @@ body {
     animation-duration:1s;
     animation-fill-mode:forwards;
 }
-#scoreList li {
+.quizList li {
     font-size: 2em;
     padding-left: 0;
-}
-#scoreListScores li {
-    font-size: 2em;
-    padding-left: 0;
-}
+}   
