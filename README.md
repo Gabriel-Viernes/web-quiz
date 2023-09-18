@@ -7,10 +7,11 @@ The purpose of this assignment is to create a coding quiz with all of the functi
 This is a coding quiz with basic questions on the basics of web development
 
 ## Live Website:
-The live website can be found [here](https://gabriel-viernes.github.io/web-quiz/)
+The live website can be found [here](https://gabriel-viernes.github.io/webdev-quiz/)
+The repository can be found [here](https://github.com/Gabriel-Viernes/webdev-quiz)
 
 ## Bug Reports:
-Please use the issue tracker provided by Github [here](https://github.com/Gabriel-Viernes/web-quiz/issues) to submit bug reports
+Please use the issue tracker provided by Github [here](https://github.com/Gabriel-Viernes/webdev-quiz/issues) to submit bug reports
 
 ## License:
 MIT License
