@@ -26,14 +26,18 @@ body {
     border: 1em solid black;
     position:relative;
     right: 1em;
-
+    font-size: 2em;
 }
 .answer:hover {
     animation-name:selection;
     animation-duration:1s;
     animation-fill-mode:forwards;
 }
-.quizList li {
+ul {
+    list-style: none;
+    padding-left: 0;
+}
+ul li {
     font-size: 2em;
     padding-left: 0;
 }   

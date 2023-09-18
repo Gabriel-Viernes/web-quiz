@@ -1,6 +1,7 @@
 var currentQuestion = 0;
 var time = 60;
 var chosenAnswers = [];
+
 var startBtn = $("#startBtn").on("click", () => {
     $("#startBtnCont").addClass("d-none");
     timer();
@@ -38,11 +39,13 @@ function questionTemplate(question,a,b,c,d,correct) {
     this.correct = correct;
     // correct will be a number from 1-4, corresponding with a-d
 }
+
 // score object
 function scoreObject(initials, score) {
     this.initials = initials;
     this.score = score;
 }
+
 // populate scoreboard with fake scores
 const fake0 = new scoreObject("馬鹿", 5);
 const fake1 = new scoreObject("ばか", 4);
@@ -69,6 +72,7 @@ function displayQuestion() {
     $("#d").text(cur.d);
 }
 
+// sets a timer, forces the user to the endscreen if time runs out
 function timer() {
     $("#time").text(time);
     setInterval(() => {
@@ -88,7 +92,6 @@ function nextQuestion() {
 // adds answerID to chosenAnswers[], checks the answer, displays Correct/Wrong 
 function recordAnswer(id) {
     chosenAnswers.push(id);
-    console.log(chosenAnswers);
     if (id === questionList[currentQuestion].correct) {
         $("#curr").text("Correct!");
         setTimeout(() => {
@@ -102,18 +105,19 @@ function recordAnswer(id) {
         }, 3000);
     }
 }
+
 // Compares the current question to the amount of questions available, then advances to the next question or ends the quiz
 function endTestCheck(id) {
     if(currentQuestion === (questionList.length - 1)) {
         recordAnswer(id);
         endScreenDisplay();
-        console.log("oops")
     } else {
         recordAnswer(id);
         nextQuestion();
         displayQuestion();
     }
 }
+
 // checks user's answers against answer sheet and returns a score
 function checkScore() {
     let score = 0;
@@ -124,6 +128,7 @@ function checkScore() {
     }
     return score;
 }
+
 // displays endscreen and initializes input for user initials
 function endScreenDisplay() {
     $("#questionCont").addClass("d-none");
@@ -136,9 +141,9 @@ function endScreenDisplay() {
         scoreDisplay();
     })  
 }
+
 // checks user inputted initials to see if they're of appropriate length
 function checkInitials() {
-    console.log("checkInitials started")
     let initials = $("#initials").val();
     if(initials.length != 2){
         return false;
@@ -148,7 +153,6 @@ function checkInitials() {
 
 // adds a scoreObject to local storage based on user input
 function storeScore() {
-    console.log("storeScore started")
     if(checkInitials() === true) {
         let score = checkScore();
         let nextKey = localStorage.length;
@@ -160,6 +164,7 @@ function storeScore() {
         alert("Please only use two characters when storing initials");
     }
 }
+
 // removes all child list items then reappends them
 function scoreDisplay() {
     $("#scoreList").empty();
